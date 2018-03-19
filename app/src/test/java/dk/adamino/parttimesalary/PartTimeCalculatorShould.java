@@ -72,4 +72,14 @@ public class PartTimeCalculatorShould {
 
         assertEquals(expectedResult, result, 0);
     }
+
+    @Test
+    public void getWeeklyHoursFromMonthlyHours() {
+        double monthlyHours = 65;
+
+        double expectedResult = monthlyHours / ESalary.getMonthlyDividedByWeekly();
+        double result = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(monthlyHours);
+
+        assertEquals(expectedResult, result, 0);
+    }
 }

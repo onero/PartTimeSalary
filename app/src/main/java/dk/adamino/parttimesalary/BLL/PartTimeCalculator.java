@@ -17,17 +17,22 @@ public class PartTimeCalculator implements IPartTimeCalculator {
     }
 
     @Override
-    public double getPartTimeSalaryFromPartTimeHourRate(double partTimeMonthlyHours, double hourRate) {
-        return partTimeMonthlyHours * hourRate;
+    public double getPartTimeSalaryFromPartTimeHourRate(double monthlyHours, double hourRate) {
+        return monthlyHours * hourRate;
     }
 
     @Override
-    public double getPartTimeHourRateFromPartTimeSalary(double partTimeSalary, double partTimeMonthlyHours) {
-        return partTimeSalary / partTimeMonthlyHours;
+    public double getPartTimeHourRateFromPartTimeSalary(double salary, double monthlyHours) {
+        return salary / monthlyHours;
     }
 
     @Override
-    public double getPartTimeHoursMonthlyFromPartTimeHoursWeekly(double partTimeHoursWeekly) {
-        return ESalary.getMonthlyDividedByWeekly() * partTimeHoursWeekly;
+    public double getPartTimeHoursMonthlyFromPartTimeHoursWeekly(double weeklyHours) {
+        return ESalary.getMonthlyDividedByWeekly() * weeklyHours;
+    }
+
+    @Override
+    public double getWeeklyHoursFromMonthlyHours(double monthlyHours) {
+        return monthlyHours / ESalary.getMonthlyDividedByWeekly();
     }
 }

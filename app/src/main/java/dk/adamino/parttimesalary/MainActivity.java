@@ -112,15 +112,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update calculation button to reflect calculation state
+     * @param value
+     */
     private void setReadyToCalculate(boolean value) {
         clearSalary();
         mCalculate.setEnabled(value);
     }
 
+    /***
+     * Clear salary field
+     */
     private void clearSalary() {
         mSalary.setText("");
     }
 
+    /***
+     * Check if conditions for making a valid calculations are true
+     * @return
+     */
     private boolean checkIsReadyToCalculate() {
         // Check for Part Time Salary From Full Time Salary
         if (mFullTimeSalaryHasInput && mWeeklyHoursHasInput) {
@@ -143,45 +154,58 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClick_Calculate(View view) {
         try {
-            double salary, weeklyHours, fullTimeSalary, hourlyRate, monthlyHours;
+            if (checkFieldsForPartTimeSalaryFromFullTimeSalary()) return;
 
-            // Check for Part Time Salary From Full Time Salary
-            if (mFullTimeSalaryHasInput && mWeeklyHoursHasInput) {
-                fullTimeSalary = getFullTimeSalary();
-                weeklyHours = getWeeklyHours();
-                salary = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
-                mSalary.setText(salary + "");
-                // Set useful information for other fields
-                monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
-                mMonthlyHours.setText(monthlyHours + "");
-                hourlyRate = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(salary,monthlyHours);
-                mHourlyRate.setText(hourlyRate + "");
-                return;
-            }
-
-            // Check for Part Time Salary From Hourly Rate
-            if (mWeeklyHoursHasInput || mMonthlyHoursHasInput && mHourlyRateHasInput) {
-                if (mWeeklyHoursHasInput) {
-                    weeklyHours = getWeeklyHours();
-                    monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
-                    mMonthlyHours.setText(monthlyHours+ "");
-                } else {
-                    monthlyHours = getMonthlyHours();
-                    // TODO ALH: Calculate weekly hours
-                }
-                hourlyRate = getHourlyRate();
-
-                salary = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(monthlyHours, hourlyRate);
-                mSalary.setText(salary + "");
-
-                // Set useful information for other fields
-                //TODO ALH: Calculate FUll Time Salary!
-                return;
-            }
+            if (checkFieldsForPartTimeSalaryFromHourlyRate()) return;
         } catch (Exception ex) {
             Log.e(TAG, "Exception while parsing value: " + ex.getMessage());
         }
 
+    }
+
+    private boolean checkFieldsForPartTimeSalaryFromHourlyRate() {
+        double salary, weeklyHours, fullTimeSalary, hourlyRate, monthlyHours;
+
+        if (mWeeklyHoursHasInput || mMonthlyHoursHasInput && mHourlyRateHasInput) {
+            if (mWeeklyHoursHasInput) {
+                weeklyHours = getWeeklyHours();
+                monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
+                mMonthlyHours.setText(monthlyHours+ "");
+            } else {
+                monthlyHours = getMonthlyHours();
+                // TODO ALH: Calculate weekly hours
+            }
+            hourlyRate = getHourlyRate();
+
+            salary = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(monthlyHours, hourlyRate);
+            mSalary.setText(salary + "");
+
+            // Set useful information for other fields
+            //TODO ALH: Calculate FUll Time Salary!
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkFieldsForPartTimeSalaryFromFullTimeSalary() {
+        double fullTimeSalary;
+        double weeklyHours;
+        double salary;
+        double monthlyHours;
+        double hourlyRate;
+        if (mFullTimeSalaryHasInput && mWeeklyHoursHasInput) {
+            fullTimeSalary = getFullTimeSalary();
+            weeklyHours = getWeeklyHours();
+            salary = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
+            mSalary.setText(salary + "");
+            // Set useful information for other fields
+            monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
+            mMonthlyHours.setText(monthlyHours + "");
+            hourlyRate = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(salary,monthlyHours);
+            mHourlyRate.setText(hourlyRate + "");
+            return true;
+        }
+        return false;
     }
 
     /***

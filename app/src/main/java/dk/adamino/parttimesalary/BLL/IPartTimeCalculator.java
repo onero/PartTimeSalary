@@ -16,24 +16,31 @@ public interface IPartTimeCalculator {
 
     /***
      * Calculate PartTimeSalary from partTimeHourRate
-     * @param partTimeMonthlyHours
+     * @param monthlyHours
      * @param hourRate
      * @return PartTimeSalary as double
      */
-    double getPartTimeSalaryFromPartTimeHourRate(double partTimeMonthlyHours, double hourRate);
+    double getPartTimeSalaryFromPartTimeHourRate(double monthlyHours, double hourRate);
 
     /***
-     * Get PartTimeHourRate from PartTimeSalary
-     * @param partTimeSalary
-     * @param partTimeMonthlyHours
+     * Get PartTimeHourRate from PartTimeSalary and
+     * @param salary
+     * @param monthlyHours
      * @return PartTimeHourRate as double
      */
-    double getPartTimeHourRateFromPartTimeSalary(double partTimeSalary, double partTimeMonthlyHours);
+    double getPartTimeHourRateFromPartTimeSalary(double salary, double monthlyHours);
 
     /***
      * Calculate PartTimeHoursMonthly from PartTimeHoursWeekly
-     * @param partTimeHoursWeekly
+     * @param weeklyHours
      * @return PartTimeHoursMonthly as double
      */
-    double getPartTimeHoursMonthlyFromPartTimeHoursWeekly(double partTimeHoursWeekly);
+    double getPartTimeHoursMonthlyFromPartTimeHoursWeekly(double weeklyHours);
+
+    /***
+     * Calculate WeeklyHours fromMonthlyHours
+     * @param monthlyHours
+     * @return
+     */
+    double getWeeklyHoursFromMonthlyHours(double monthlyHours);
 }
