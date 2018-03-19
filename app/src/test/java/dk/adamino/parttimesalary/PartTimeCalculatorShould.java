@@ -82,4 +82,14 @@ public class PartTimeCalculatorShould {
 
         assertEquals(expectedResult, result, 0);
     }
+
+    @Test
+    public void getFullTimeSalaryFromHourlyRate() {
+        double hourlyRate = 150;
+
+        double expectedResult = hourlyRate * ESalary.FULL_TIME_HOURS_WEEKLY.getValue();
+        double result = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
+
+        assertEquals(expectedResult, result, 0);
+    }
 }
