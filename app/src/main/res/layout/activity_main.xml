@@ -5,15 +5,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dk.adamino.parttimesalary.MainActivity">
+    tools:context="dk.adamino.parttimesalary.MainActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Hourly Rate"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtHourlyRate"
+        app:layout_constraintEnd_toEndOf="@+id/txtHourlyRate"
+        app:layout_constraintStart_toStartOf="@+id/txtHourlyRate"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monthly Hours"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMonthlyHours"
+        app:layout_constraintEnd_toEndOf="@+id/txtMonthlyHours"
+        app:layout_constraintStart_toStartOf="@+id/txtMonthlyHours"
+        />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Full Time Salary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/txtFullTimeSalary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="10,500"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        />
+
+    <EditText
+        android:id="@+id/txtMonthlyHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:hint="100"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/txtWeeklyHours"
+        app:layout_constraintTop_toBottomOf="@+id/txtWeeklyHours"
+        />
+
+    <EditText
+        android:id="@+id/txtWeeklyHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:hint="15"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/txtFullTimeSalary"
+        app:layout_constraintTop_toBottomOf="@+id/txtFullTimeSalary"
+        />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Salary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSalary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtSalary"
+        />
+
+    <TextView
+        android:id="@+id/txtSalary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:text="0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnCalculate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly Hours"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtWeeklyHours"
+        app:layout_constraintEnd_toEndOf="@+id/txtWeeklyHours"
+        app:layout_constraintStart_toStartOf="@+id/txtWeeklyHours"
+        />
+
+
+
+    <EditText
+        android:id="@+id/txtHourlyRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:ems="10"
+        android:hint="150"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/txtMonthlyHours"
+        app:layout_constraintTop_toBottomOf="@+id/txtMonthlyHours"
+        />
+
+    <Button
+        android:id="@+id/btnCalculate"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick_Calculate"
+        android:text="CALCULATE"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </android.support.constraint.ConstraintLayout>
