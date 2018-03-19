@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
                 mMonthlyHours.setText(monthlyHours+ "");
             } else {
                 monthlyHours = getMonthlyHours();
-                // TODO ALH: Calculate weekly hours
+                weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(monthlyHours);
+                mWeeklyHours.setText(weeklyHours + "");
             }
             hourlyRate = getHourlyRate();
 
