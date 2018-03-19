@@ -166,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkFieldsForPartTimeSalaryFromHourlyRate() {
         double salary, weeklyHours, fullTimeSalary, hourlyRate, monthlyHours;
 
-        if (mWeeklyHoursHasInput || mMonthlyHoursHasInput && mHourlyRateHasInput) {
+        if (mWeeklyHoursHasInput && mHourlyRateHasInput ||
+                mMonthlyHoursHasInput && mHourlyRateHasInput) {
             if (mWeeklyHoursHasInput) {
                 weeklyHours = getWeeklyHours();
                 monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
@@ -182,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
             mSalary.setText(salary + "");
 
             // Set useful information for other fields
-            //TODO ALH: Calculate FUll Time Salary!
+            fullTimeSalary = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
+            mFullTimeSalary.setText(fullTimeSalary + "");
             return true;
         }
         return false;

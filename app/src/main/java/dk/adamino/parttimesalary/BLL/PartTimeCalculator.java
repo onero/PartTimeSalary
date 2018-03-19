@@ -38,6 +38,6 @@ public class PartTimeCalculator implements IPartTimeCalculator {
 
     @Override
     public double getFullTimeSalaryFromHourlyRate(double hourlyRate) {
-        return hourlyRate * ESalary.FULL_TIME_HOURS_WEEKLY.getValue();
+        return hourlyRate * ESalary.FULL_TIME_HOURS_MONTHLY.getValue();
     }
 }
