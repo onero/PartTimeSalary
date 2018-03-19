@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mCalculate;
 
     private IPartTimeCalculator mPartTimeCalculator;
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.##");
 
     private boolean mFullTimeSalaryHasInput = false;
     private boolean mWeeklyHoursHasInput = false;
