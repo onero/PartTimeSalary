@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Deltidsløn</string>
+    <string name="hourly_rate">Timeløn</string>
+    <string name="monthly_hours">Månedlige Timer</string>
+    <string name="full_time_salary">Fuldtidsløn (37t om ugen)</string>
+    <string name="full_time_salary_hint">10,500</string>
+    <string name="monthly_hours_hint">100</string>
+    <string name="weekly_hours_hint">15</string>
+    <string name="salary">Løn</string>
+    <string name="weekly_hours">Ugentlige Timer</string>
+    <string name="salary_value">0</string>
+    <string name="calculate">BEREGN</string>
+    <string name="hourly_rate_hint">150</string>
+    <string name="clear">RYD</string>
+</resources>
