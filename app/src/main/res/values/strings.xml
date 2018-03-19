@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Part Time Salary</string>
+    <string name="hourly_rate">Hourly Rate</string>
+    <string name="monthly_hours">Monthly Hours</string>
+    <string name="full_time_salary">Full Time Salary (37h per week)</string>
+    <string name="full_time_salary_hint">10,500</string>
+    <string name="monthly_hours_hint">100</string>
+    <string name="weekly_hours_hint">15</string>
+    <string name="salary">Salary</string>
+    <string name="weekly_hours">Weekly Hours</string>
+    <string name="salary_value">0</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="hourly_rate_hint">150</string>
+    <string name="clear">Clear</string>
 </resources>
