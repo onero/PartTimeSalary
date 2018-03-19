@@ -57,7 +57,7 @@ public class PartTimeCalculatorShould {
         double partTimeHoursWeekly = 15;
 
         double expectedResult = ESalary.getMonthlyDividedByWeekly() * partTimeHoursWeekly;
-        double result = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(partTimeHoursWeekly);
+        double result = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(partTimeHoursWeekly);
 
         assertEquals(expectedResult, result, 0);
     }

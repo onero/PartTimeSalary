@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import dk.adamino.parttimesalary.BLL.IPartTimeCalculator;
 import dk.adamino.parttimesalary.BLL.PartTimeCalculator;
 
@@ -15,14 +17,16 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "DEBUG";
 
+    private TextView mSalary, mWeeklyHours, mFullTimeSalary, mHourlyRate, mMonthlyHours;
+    private Button mCalculate;
+
+    private IPartTimeCalculator mPartTimeCalculator;
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+
     private boolean mFullTimeSalaryHasInput = false;
     private boolean mWeeklyHoursHasInput = false;
     private boolean mHourlyRateHasInput = false;
     private boolean mMonthlyHoursHasInput = false;
-
-    private TextView mSalary, mWeeklyHours, mFullTimeSalary, mHourlyRate, mMonthlyHours;
-    private Button mCalculate;
-    private IPartTimeCalculator mPartTimeCalculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "FullTime has input");
                     mFullTimeSalaryHasInput = true;
                     // Make sure to clear hourly rate, as both should not be set!
+                    mHourlyRate.setText("");
                     mHourlyRateHasInput = false;
                 } else {
                     mFullTimeSalaryHasInput = false;
@@ -65,9 +70,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mWeeklyHours.getText().length() > 0) {
                     Log.d(TAG, "Weekly has input");
                     mWeeklyHoursHasInput = true;
-                    // Make sure to clear monthly hours, as both should not be set!
-                    mMonthlyHours.setText("");
-                    mMonthlyHoursHasInput= false;
+                    // Calculate and update monthly hours
+                    double monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(getWeeklyHours());
+                    String monthlyHoursAsString = DECIMAL_FORMAT.format(monthlyHours);
+                    mMonthlyHours.setText(monthlyHoursAsString);
+                    mMonthlyHoursHasInput = true;
                 } else {
                     mWeeklyHoursHasInput = false;
                 }
@@ -100,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mMonthlyHours.getText().length() > 0) {
                     Log.d(TAG, "Monthly has input");
                     mMonthlyHoursHasInput = true;
-                    // Make sure to clear weekly hours, as both should not be set!
-                    mWeeklyHours.setText("");
-                    mWeeklyHoursHasInput = false;
+                    // Calculate and update weekly hours
+                    double weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(getMonthlyHours());
+                    String weeklyHoursAsString = DECIMAL_FORMAT.format(weeklyHours);
+                    mWeeklyHours.setText(weeklyHoursAsString);
+                    mWeeklyHoursHasInput = true;
                 } else {
                     mMonthlyHoursHasInput = false;
                 }
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Update calculation button to reflect calculation state
+     *
      * @param value
      */
     private void setReadyToCalculate(boolean value) {
@@ -154,9 +164,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClick_Calculate(View view) {
         try {
-            if (checkFieldsForPartTimeSalaryFromFullTimeSalary()) return;
+            double salary = 0;
+            if (checkFieldsForPartTimeSalaryFromFullTimeSalary()) {
+                salary = calculatePartTimeSalaryFromFullTimeSalary();
+            } else if (checkFieldsForPartTimeSalaryFromHourlyRate()) {
+                salary = calculatePartTimeSalaryFromHourlyRate();
+            }
 
-            if (checkFieldsForPartTimeSalaryFromHourlyRate()) return;
+            String salaryAsString = DECIMAL_FORMAT.format(salary);
+            mSalary.setText(salaryAsString);
         } catch (Exception ex) {
             Log.e(TAG, "Exception while parsing value: " + ex.getMessage());
         }
@@ -164,51 +180,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean checkFieldsForPartTimeSalaryFromHourlyRate() {
-        double salary, weeklyHours, fullTimeSalary, hourlyRate, monthlyHours;
-
-        if (mWeeklyHoursHasInput && mHourlyRateHasInput ||
-                mMonthlyHoursHasInput && mHourlyRateHasInput) {
-            if (mWeeklyHoursHasInput) {
-                weeklyHours = getWeeklyHours();
-                monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
-                mMonthlyHours.setText(monthlyHours+ "");
-            } else {
-                monthlyHours = getMonthlyHours();
-                weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(monthlyHours);
-                mWeeklyHours.setText(weeklyHours + "");
-            }
-            hourlyRate = getHourlyRate();
-
-            salary = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(monthlyHours, hourlyRate);
-            mSalary.setText(salary + "");
-
-            // Set useful information for other fields
-            fullTimeSalary = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
-            mFullTimeSalary.setText(fullTimeSalary + "");
-            return true;
-        }
-        return false;
+        return mWeeklyHoursHasInput && mHourlyRateHasInput ||
+                mMonthlyHoursHasInput && mHourlyRateHasInput;
     }
 
     private boolean checkFieldsForPartTimeSalaryFromFullTimeSalary() {
-        double fullTimeSalary;
-        double weeklyHours;
-        double salary;
-        double monthlyHours;
-        double hourlyRate;
-        if (mFullTimeSalaryHasInput && mWeeklyHoursHasInput) {
-            fullTimeSalary = getFullTimeSalary();
+        return mFullTimeSalaryHasInput && mWeeklyHoursHasInput;
+    }
+
+    private double calculatePartTimeSalaryFromHourlyRate() {
+        double fullTimeSalary, weeklyHours, salary, monthlyHours, hourlyRate;
+
+        if (mWeeklyHoursHasInput) {
             weeklyHours = getWeeklyHours();
-            salary = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
-            mSalary.setText(salary + "");
-            // Set useful information for other fields
-            monthlyHours = mPartTimeCalculator.getPartTimeHoursMonthlyFromPartTimeHoursWeekly(weeklyHours);
-            mMonthlyHours.setText(monthlyHours + "");
-            hourlyRate = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(salary,monthlyHours);
-            mHourlyRate.setText(hourlyRate + "");
-            return true;
+            monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(weeklyHours);
+        } else {
+            monthlyHours = getMonthlyHours();
         }
-        return false;
+        hourlyRate = getHourlyRate();
+
+        salary = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(monthlyHours, hourlyRate);
+        // Set useful information for other fields
+        fullTimeSalary = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
+        String fullTimeSalaryAsString = DECIMAL_FORMAT.format(fullTimeSalary);
+        mFullTimeSalary.setText(fullTimeSalaryAsString);
+        return salary;
+    }
+
+    private double calculatePartTimeSalaryFromFullTimeSalary() {
+        double fullTimeSalary, weeklyHours, salary, monthlyHours, hourlyRate;
+        fullTimeSalary = getFullTimeSalary();
+        weeklyHours = getWeeklyHours();
+        salary = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
+        // Set useful information for other fields
+        monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(weeklyHours);
+        hourlyRate = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(salary, monthlyHours);
+        String hourlyRateAsString = DECIMAL_FORMAT.format(hourlyRate);
+        mHourlyRate.setText(hourlyRateAsString);
+        mHourlyRateHasInput = true;
+        return salary;
     }
 
     /***

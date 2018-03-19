@@ -35,7 +35,7 @@ public interface IPartTimeCalculator {
      * @param weeklyHours
      * @return PartTimeHoursMonthly as double
      */
-    double getPartTimeHoursMonthlyFromPartTimeHoursWeekly(double weeklyHours);
+    double getMonthlyHoursFromWeeklyHours(double weeklyHours);
 
     /***
      * Calculate WeeklyHours from MonthlyHours
