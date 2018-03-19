@@ -18,7 +18,6 @@ import dk.adamino.parttimesalary.BLL.PartTimeCalculator;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "DEBUG";
-
     private TextView mSalary, mWeeklyHours, mFullTimeSalary, mHourlyRate, mMonthlyHours;
     private Button mCalculate;
 
