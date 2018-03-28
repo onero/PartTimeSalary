@@ -12,41 +12,40 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/hourly_rate"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtHourlyRate"
         app:layout_constraintEnd_toEndOf="@+id/txtHourlyRate"
         app:layout_constraintStart_toStartOf="@+id/txtHourlyRate"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/txtWeeklyHours"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/monthly_hours"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtMonthlyHours"
         app:layout_constraintEnd_toEndOf="@+id/txtMonthlyHours"
         app:layout_constraintStart_toStartOf="@+id/txtMonthlyHours"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/txtHourlyRate"/>
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginTop="16dp"
         android:text="@string/full_time_salary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/btnCalculate"/>
 
     <EditText
         android:id="@+id/txtFullTimeSalary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/full_time_salary_hint"
         android:inputType="numberDecimal"
@@ -60,26 +59,27 @@
         android:id="@+id/txtMonthlyHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/monthly_hours_hint"
         android:inputType="numberDecimal"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/txtWeeklyHours"
-        app:layout_constraintTop_toBottomOf="@+id/txtWeeklyHours"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         />
 
     <EditText
         android:id="@+id/txtWeeklyHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/weekly_hours_hint"
         android:inputType="numberDecimal"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="@+id/txtFullTimeSalary"
-        app:layout_constraintTop_toBottomOf="@+id/txtFullTimeSalary"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         />
 
     <TextView
@@ -87,51 +87,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/salary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtSalary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtSalary"
-        />
+        app:layout_constraintTop_toTopOf="@+id/txtSalary"/>
 
     <TextView
         android:id="@+id/txtSalary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
+        android:layout_marginTop="16dp"
         android:text="@string/salary_value"
         android:textColor="@color/adaminoGreen"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnCalculate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/weekly_hours"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtWeeklyHours"
         app:layout_constraintEnd_toEndOf="@+id/txtWeeklyHours"
         app:layout_constraintStart_toStartOf="@+id/txtWeeklyHours"
-        />
-
+        app:layout_constraintTop_toBottomOf="@+id/txtFullTimeSalary"/>
 
 
     <EditText
         android:id="@+id/txtHourlyRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/hourly_rate_hint"
         android:inputType="numberDecimal"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="@+id/txtMonthlyHours"
-        app:layout_constraintTop_toBottomOf="@+id/txtMonthlyHours"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         />
 
     <Button
@@ -139,12 +140,13 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:backgroundTint="@color/adaminoGreen"
         android:onClick="onClick_Calculate"
         android:text="@string/calculate"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSalary"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mCalculate;
 
     private IPartTimeCalculator mPartTimeCalculator;
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.##");
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("####.##");
 
     private boolean mFullTimeSalaryHasInput = false;
     private boolean mWeeklyHoursHasInput = false;
@@ -42,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         mFullTimeSalary = findViewById(R.id.txtFullTimeSalary);
 
-        setListeners();
+        try {
+            setListeners();
+        } catch (NumberFormatException nfe) {
+            Log.e(TAG, nfe.getMessage());
+        }
 
         setReadyToCalculate(false);
     }
@@ -254,31 +258,40 @@ public class MainActivity extends AppCompatActivity {
      * Get Full Time Salary input from user
      * @return salary as double
      */
-    private double getFullTimeSalary() {
-        return Double.parseDouble(mFullTimeSalary.getText().toString());
+    private double getFullTimeSalary() throws NumberFormatException {
+        return Double.parseDouble(getFormattedDoubleAsString(mFullTimeSalary.getText().toString()));
     }
 
     /***
      * Get weekly hours input from user
      * @return hours as double
      */
-    private double getWeeklyHours() {
-        return Double.parseDouble(mWeeklyHours.getText().toString());
+    private double getWeeklyHours() throws NumberFormatException {
+        return Double.parseDouble(getFormattedDoubleAsString(mWeeklyHours.getText().toString()));
     }
 
     /***
      * Get Hourly Rate input from user
      * @return rate as double
      */
-    public double getHourlyRate() {
-        return Double.parseDouble(mHourlyRate.getText().toString());
+    public double getHourlyRate() throws NumberFormatException {
+        return Double.parseDouble(getFormattedDoubleAsString(mHourlyRate.getText().toString()));
     }
 
     /***
      * Get Monthly Hours input from user
      * @return hours as double
      */
-    public double getMonthlyHours() {
-        return Double.parseDouble(mMonthlyHours.getText().toString());
+    public double getMonthlyHours() throws NumberFormatException {
+        return Double.parseDouble(getFormattedDoubleAsString(mMonthlyHours.getText().toString()));
+    }
+
+    /**
+     * Solution for "," vs "." issue
+     * @param doubleAsString
+     * @return correctly formatted double as String
+     */
+    private String getFormattedDoubleAsString(String doubleAsString) {
+        return doubleAsString.replace(",", ".");
     }
 }
