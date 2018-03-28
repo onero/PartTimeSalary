@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Weekly has input");
                         mWeeklyHoursHasInput = true;
                         // Calculate and update monthly hours
-                        double monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(getWeeklyHours());
+                        double monthlyHours = mPartTimeCalculator.calculateMonthlyHoursFromWeeklyHours(getWeeklyHours());
                         String monthlyHoursAsString = DECIMAL_FORMAT.format(monthlyHours);
                         mMonthlyHours.setText(monthlyHoursAsString);
                         mMonthlyHoursHasInput = true;
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Monthly has input");
                         mMonthlyHoursHasInput = true;
                         // Calculate and update weekly hours
-                        double weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(getMonthlyHours());
+                        double weeklyHours = mPartTimeCalculator.calculateWeeklyHoursFromMonthlyHours(getMonthlyHours());
                         String weeklyHoursAsString = DECIMAL_FORMAT.format(weeklyHours);
                         mWeeklyHours.setText(weeklyHoursAsString);
                         mWeeklyHoursHasInput = true;
@@ -238,15 +238,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (mWeeklyHoursHasInput) {
             weeklyHours = getWeeklyHours();
-            monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(weeklyHours);
+            monthlyHours = mPartTimeCalculator.calculateMonthlyHoursFromWeeklyHours(weeklyHours);
         } else {
             monthlyHours = getMonthlyHours();
         }
         hourlyRate = getHourlyRate();
 
-        salary = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(monthlyHours, hourlyRate);
+        salary = mPartTimeCalculator.calculateFromMonthlyHoursAndHourRate(monthlyHours, hourlyRate);
         // Set useful information for other fields
-        fullTimeSalary = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
+        fullTimeSalary = mPartTimeCalculator.calculateFullTimeSalaryFromHourlyRate(hourlyRate);
         String fullTimeSalaryAsString = DECIMAL_FORMAT.format(fullTimeSalary);
         mFullTimeSalary.setText(fullTimeSalaryAsString);
         return salary;
@@ -256,10 +256,10 @@ public class MainActivity extends AppCompatActivity {
         double fullTimeSalary, weeklyHours, salary, monthlyHours, hourlyRate;
         fullTimeSalary = getFullTimeSalary();
         weeklyHours = getWeeklyHours();
-        salary = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
+        salary = mPartTimeCalculator.calculateFromWeeklyHoursAndFullTimeSalary(weeklyHours, fullTimeSalary);
         // Set useful information for other fields
-        monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(weeklyHours);
-        hourlyRate = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(salary, monthlyHours);
+        monthlyHours = mPartTimeCalculator.calculateMonthlyHoursFromWeeklyHours(weeklyHours);
+        hourlyRate = mPartTimeCalculator.calculateHourRateFromPartTimeSalaryAndMonthlyHours(salary, monthlyHours);
         String hourlyRateAsString = DECIMAL_FORMAT.format(hourlyRate);
         mHourlyRate.setText(hourlyRateAsString);
         mHourlyRateHasInput = true;

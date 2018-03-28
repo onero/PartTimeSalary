@@ -12,7 +12,7 @@ public interface IPartTimeCalculator {
      * @param fullTimeSalary
      * @return PartTimeSalary as double
      */
-    double getPartTimeSalaryFromFullTimeSalary(double weeklyHours, double fullTimeSalary);
+    double calculateFromWeeklyHoursAndFullTimeSalary(double weeklyHours, double fullTimeSalary);
 
     /***
      * Calculate PartTimeSalary from partTimeHourRate
@@ -20,7 +20,7 @@ public interface IPartTimeCalculator {
      * @param hourRate
      * @return PartTimeSalary as double
      */
-    double getPartTimeSalaryFromPartTimeHourRate(double monthlyHours, double hourRate);
+    double calculateFromMonthlyHoursAndHourRate(double monthlyHours, double hourRate);
 
     /***
      * Get PartTimeHourRate from PartTimeSalary and
@@ -28,26 +28,26 @@ public interface IPartTimeCalculator {
      * @param monthlyHours
      * @return PartTimeHourRate as double
      */
-    double getPartTimeHourRateFromPartTimeSalary(double salary, double monthlyHours);
+    double calculateHourRateFromPartTimeSalaryAndMonthlyHours(double salary, double monthlyHours);
 
     /***
      * Calculate PartTimeHoursMonthly from PartTimeHoursWeekly
      * @param weeklyHours
      * @return PartTimeHoursMonthly as double
      */
-    double getMonthlyHoursFromWeeklyHours(double weeklyHours);
+    double calculateMonthlyHoursFromWeeklyHours(double weeklyHours);
 
     /***
      * Calculate WeeklyHours from MonthlyHours
      * @param monthlyHours
      * @return
      */
-    double getWeeklyHoursFromMonthlyHours(double monthlyHours);
+    double calculateWeeklyHoursFromMonthlyHours(double monthlyHours);
 
     /***
      * Calculate FullTimeSalary from HourlyRate
      * @param hourlyRate
      * @return
      */
-    double getFullTimeSalaryFromHourlyRate(double hourlyRate);
+    double calculateFullTimeSalaryFromHourlyRate(double hourlyRate);
 }

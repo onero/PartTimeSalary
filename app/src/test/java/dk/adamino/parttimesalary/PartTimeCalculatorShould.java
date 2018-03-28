@@ -21,74 +21,74 @@ public class PartTimeCalculatorShould {
     }
 
     @Test
-    public void getPartTimeSalaryFromFullTimeSalary_withInputUnderFullTime() {
+    public void calculateFromWeeklyHoursAndFullTimeSalary_withInputUnderFullTime() {
         double weeklyHours = 15;
         double fullTimeSalary = 25_000;
 
         double expectedResult = (weeklyHours / FULL_TIME_HOURS_WEEKLY.getValue()) * fullTimeSalary;
-        double result = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
+        double result = mPartTimeCalculator.calculateFromWeeklyHoursAndFullTimeSalary(weeklyHours, fullTimeSalary);
 
         assertEquals(expectedResult, result, 0);
     }
 
     @Test
-    public void returnFullTimeSalary_withInputAtFullTime() {
+    public void calculateFromWeeklyHoursAndFullTimeSalary_withInputAtFullTime() {
         double weeklyHours = 37;
         double fullTimeSalary = 25_000;
 
-        double result = mPartTimeCalculator.getPartTimeSalaryFromFullTimeSalary(weeklyHours, fullTimeSalary);
+        double result = mPartTimeCalculator.calculateFromWeeklyHoursAndFullTimeSalary(weeklyHours, fullTimeSalary);
 
         assertEquals(fullTimeSalary, result, 0);
     }
 
     @Test
-    public void getPartTimeSalaryFromPartTimeHourRate() {
-        double partTimeHoursMonthly = 15;
+    public void calculateFromMonthlyHoursAndHourRate_withInputUnderFullTimeMonth() {
+        double partTimeHoursMonthly = 60;
         double hourRate = 150;
 
         double expectedResult = partTimeHoursMonthly * hourRate;
-        double result = mPartTimeCalculator.getPartTimeSalaryFromPartTimeHourRate(partTimeHoursMonthly, hourRate);
+        double result = mPartTimeCalculator.calculateFromMonthlyHoursAndHourRate(partTimeHoursMonthly, hourRate);
 
         assertEquals(expectedResult, result, 0);
     }
 
     @Test
-    public void getPartTimeHoursMonthlyFromPartTimeHoursWeekly() {
+    public void calculateMonthlyHoursFromWeeklyHours_withInputUnderFullTime() {
         double partTimeHoursWeekly = 15;
 
         double expectedResult = ESalary.getMonthlyDividedByWeekly() * partTimeHoursWeekly;
-        double result = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(partTimeHoursWeekly);
+        double result = mPartTimeCalculator.calculateMonthlyHoursFromWeeklyHours(partTimeHoursWeekly);
 
         assertEquals(expectedResult, result, 0);
     }
 
     @Test
-    public void getPartTimeHourRateFromPartTimeSalary() {
+    public void calculateHourRateFromPartTimeSalaryAndMonthlyHours_withInputUnderFullTime() {
         double partTimeSalary = 8_500;
         double partTimeMonthlyHours = 65;
 
         double expectedResult = partTimeSalary / partTimeMonthlyHours;
-        double result = mPartTimeCalculator.getPartTimeHourRateFromPartTimeSalary(partTimeSalary, partTimeMonthlyHours);
+        double result = mPartTimeCalculator.calculateHourRateFromPartTimeSalaryAndMonthlyHours(partTimeSalary, partTimeMonthlyHours);
 
         assertEquals(expectedResult, result, 0);
     }
 
     @Test
-    public void getWeeklyHoursFromMonthlyHours() {
+    public void calculateWeeklyHoursFromMonthlyHours_withInputUnderFullTime() {
         double monthlyHours = 65;
 
         double expectedResult = monthlyHours / ESalary.getMonthlyDividedByWeekly();
-        double result = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(monthlyHours);
+        double result = mPartTimeCalculator.calculateWeeklyHoursFromMonthlyHours(monthlyHours);
 
         assertEquals(expectedResult, result, 0);
     }
 
     @Test
-    public void getFullTimeSalaryFromHourlyRate() {
+    public void calculateFullTimeSalaryFromHourlyRate_withInputAboveZero() {
         double hourlyRate = 150;
 
         double expectedResult = hourlyRate * ESalary.FULL_TIME_HOURS_MONTHLY.getValue();
-        double result = mPartTimeCalculator.getFullTimeSalaryFromHourlyRate(hourlyRate);
+        double result = mPartTimeCalculator.calculateFullTimeSalaryFromHourlyRate(hourlyRate);
 
         assertEquals(expectedResult, result, 0);
     }
