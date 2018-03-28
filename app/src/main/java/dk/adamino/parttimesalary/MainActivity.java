@@ -2,8 +2,9 @@ package dk.adamino.parttimesalary;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,78 +81,89 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        mFullTimeSalary.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (mFullTimeSalary.getText().length() > 0) {
-                    Log.d(TAG, "FullTime has input");
-                    mFullTimeSalaryHasInput = true;
-                    // Make sure to clear hourly rate, as both should not be set!
-                    mHourlyRate.setText("");
-                    mHourlyRateHasInput = false;
-                } else {
-                    mFullTimeSalaryHasInput = false;
-                }
-                setReadyToCalculate(checkIsReadyToCalculate());
-                return false;
-            }
-        });
+        mFullTimeSalary.addTextChangedListener(new SalaryTextWatcher(mFullTimeSalary));
         mWeeklyHours = findViewById(R.id.txtWeeklyHours);
-        mWeeklyHours.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (mWeeklyHours.getText().length() > 0) {
-                    Log.d(TAG, "Weekly has input");
-                    mWeeklyHoursHasInput = true;
-                    // Calculate and update monthly hours
-                    double monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(getWeeklyHours());
-                    String monthlyHoursAsString = DECIMAL_FORMAT.format(monthlyHours);
-                    mMonthlyHours.setText(monthlyHoursAsString);
-                    mMonthlyHoursHasInput = true;
-                } else {
-                    mWeeklyHoursHasInput = false;
-                }
-                setReadyToCalculate(checkIsReadyToCalculate());
-                return false;
-            }
-        });
+        mWeeklyHours.addTextChangedListener(new SalaryTextWatcher(mWeeklyHours));
         mHourlyRate = findViewById(R.id.txtHourlyRate);
-        mHourlyRate.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (mHourlyRate.getText().length() > 0) {
-                    Log.d(TAG, "Hourly has input");
-                    mHourlyRateHasInput = true;
-                    // Make sure to clear full time salary, as both should not be set!
-                    mFullTimeSalary.setText("");
-                    mFullTimeSalaryHasInput = false;
-                } else {
-                    mHourlyRateHasInput = false;
-                }
-                setReadyToCalculate(checkIsReadyToCalculate());
-                return false;
-            }
-        });
+        mHourlyRate.addTextChangedListener(new SalaryTextWatcher(mHourlyRate));
 
         mMonthlyHours = findViewById(R.id.txtMonthlyHours);
-        mMonthlyHours.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (mMonthlyHours.getText().length() > 0) {
-                    Log.d(TAG, "Monthly has input");
-                    mMonthlyHoursHasInput = true;
-                    // Calculate and update weekly hours
-                    double weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(getMonthlyHours());
-                    String weeklyHoursAsString = DECIMAL_FORMAT.format(weeklyHours);
-                    mWeeklyHours.setText(weeklyHoursAsString);
-                    mWeeklyHoursHasInput = true;
-                } else {
-                    mMonthlyHoursHasInput = false;
-                }
-                setReadyToCalculate(checkIsReadyToCalculate());
-                return false;
+        mMonthlyHours.addTextChangedListener(new SalaryTextWatcher(mMonthlyHours));
+    }
+
+    private class SalaryTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private SalaryTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            String text = editable.toString();
+            switch (view.getId()) {
+                case R.id.txtFullTimeSalary:
+                    if (mFullTimeSalary.hasFocus() &&
+                            mFullTimeSalary.length() > 0) {
+                        Log.d(TAG, "FullTime has input");
+                        mFullTimeSalaryHasInput = true;
+                        // Make sure to clear hourly rate, as both should not be set!
+                        mHourlyRate.setText("");
+                        mHourlyRateHasInput = false;
+                    } else {
+                        mFullTimeSalaryHasInput = false;
+                    }
+                    break;
+                case R.id.txtWeeklyHours:
+                    if (mWeeklyHours.hasFocus() &&
+                            mWeeklyHours.length() > 0) {
+                        Log.d(TAG, "Weekly has input");
+                        mWeeklyHoursHasInput = true;
+                        // Calculate and update monthly hours
+                        double monthlyHours = mPartTimeCalculator.getMonthlyHoursFromWeeklyHours(getWeeklyHours());
+                        String monthlyHoursAsString = DECIMAL_FORMAT.format(monthlyHours);
+                        mMonthlyHours.setText(monthlyHoursAsString);
+                        mMonthlyHoursHasInput = true;
+                    } else {
+                        mWeeklyHoursHasInput = false;
+                        mMonthlyHours.setText("");
+                    }
+                    break;
+                case R.id.txtHourlyRate:
+                    if (mHourlyRate.hasFocus() &&
+                            mHourlyRate.length() > 0) {
+                        Log.d(TAG, "Hourly has input");
+                        mHourlyRateHasInput = true;
+                        // Make sure to clear full time salary, as both should not be set!
+                        mFullTimeSalary.setText("");
+                        mFullTimeSalaryHasInput = false;
+                    } else {
+                        mHourlyRateHasInput = false;
+                    }
+                    break;
+                case R.id.txtMonthlyHours:
+                    if (mMonthlyHours.hasFocus() &&
+                            mMonthlyHours.getText().length() > 0) {
+                        Log.d(TAG, "Monthly has input");
+                        mMonthlyHoursHasInput = true;
+                        // Calculate and update weekly hours
+                        double weeklyHours = mPartTimeCalculator.getWeeklyHoursFromMonthlyHours(getMonthlyHours());
+                        String weeklyHoursAsString = DECIMAL_FORMAT.format(weeklyHours);
+                        mWeeklyHours.setText(weeklyHoursAsString);
+                        mWeeklyHoursHasInput = true;
+                    } else {
+                        mMonthlyHoursHasInput = false;
+                    }
+                    break;
             }
-        });
+            setReadyToCalculate(checkIsReadyToCalculate());
+        }
     }
 
     /**
@@ -288,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Solution for "," vs "." issue
+     *
      * @param doubleAsString
      * @return correctly formatted double as String
      */
