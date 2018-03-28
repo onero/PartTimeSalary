@@ -4,6 +4,6 @@
 
     <item android:title="@string/clear"
           android:id="@+id/trash"
-          android:icon="@drawable/trash"
+          android:icon="@drawable/clear"
           app:showAsAction="ifRoom|withText"/>
 </menu>
