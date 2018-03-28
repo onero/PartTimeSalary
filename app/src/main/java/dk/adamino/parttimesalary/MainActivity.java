@@ -1,5 +1,6 @@
 package dk.adamino.parttimesalary;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -218,6 +220,9 @@ public class MainActivity extends AppCompatActivity {
 
             String salaryAsString = DECIMAL_FORMAT.format(salary);
             mSalary.setText(salaryAsString);
+            // Hide keyboard input
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception ex) {
             Log.e(TAG, "Exception while parsing value: " + ex.getMessage());
         }
